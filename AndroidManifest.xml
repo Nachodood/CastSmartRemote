@@ -36,7 +36,7 @@
             android:value="com.google.sample.cast.refplayer.CastOptionsProvider" />
 
         <activity
-            android:name="com.google.sample.cast.refplayer.VideoBrowserActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -45,6 +45,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.google.sample.cast.refplayer.VideoBrowserActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
         <activity
             android:name="com.google.sample.cast.refplayer.mediaplayer.LocalPlayerActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode"
@@ -75,6 +84,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.google.sample.cast.refplayer.VideoBrowserActivity"/>
         </activity>
+        <activity
+            android:name=".LocationProfileDetail"
+            android:label="Location Profile Detail"
+            android:parentActivityName=".ManageLocationProfilesActivity" />
+        <activity
+            android:name=".ManageLocationProfilesActivity"
+            android:label="Manage Location Profiles"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ManageGesturesActivity"
+            android:label="Manage Gestures"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

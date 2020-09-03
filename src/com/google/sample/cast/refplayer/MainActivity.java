@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     View m_pivotDialogueView;
 
+    ImageView imgMain;
+
     private SensorManager m_sensorManager;
 
     private Sensor m_sensorAccelerometer,
@@ -84,10 +87,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private boolean m_isgestureListen = false;
 
-    private int m_testAlexa,
-            m_testLight,
-            m_testFridge,
-            m_compassValue;
+    private int m_compassValue,
+            m_intCastValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //pivotTestAdd();
         //listTest();
         setupDrawer();
+
+        imgMain = findViewById(R.id.img_background);////////////////////////////////////////// Set onFling up for videos
+
     }
 
     /////////////////////////////////////////////////////// SENSOR CHECK /////////////////////////////////////////////////////
@@ -344,6 +348,10 @@ excluding the force of gravity
 //        Ø More public function: getRotationMatrix,
 //                getQuaternionFromVector, getRotationMatrixFromVector
 
+        if(sensorEvent.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+            m_compassValue = (int) sensorEvent.values[0];
+        }
+
         if (m_isgestureListen == true) {
             synchronized (this) {
                 switch (sensorEvent.sensor.getType()) {
@@ -376,67 +384,67 @@ excluding the force of gravity
                         //TextView txtZ = findViewById(R.id.txt_rotation_z);
                         //txtZ.setText("Z: " + rotationZ);
 
-    m_testAlexa = 270;
-    m_testLight =320;
-    m_testFridge = 180;
+                        int m_testAlexa = 270;
+                        int m_testLight = 320;
+                        int m_testFridge = 180;
 
                         if(rotationX < 0.1 && rotationY > 0.3){
-                            if(m_compassValue < m_testAlexa+10 && m_compassValue > m_testAlexa - 10) {
+                            if(m_compassValue < m_testAlexa +10 && m_compassValue > m_testAlexa - 10) {
                                 Toast.makeText(getApplicationContext(), "Tilt right at Alexa", Toast.LENGTH_SHORT).show();
                                 //m_vibrator.vibrate(m_pattern, -1);
                                 m_vibrator.vibrate(1);
                             }
-                            if(m_compassValue < m_testLight+10 && m_compassValue > m_testLight - 10) {
+                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
                                 Toast.makeText(getApplicationContext(), "Tilt right at m_testLight", Toast.LENGTH_SHORT).show();
                                 //m_vibrator.vibrate(m_pattern, -1);
                                 m_vibrator.vibrate(10);
                             }
-                            if(m_compassValue < m_testFridge+10 && m_compassValue > m_testFridge - 10) {
+                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
                                 Toast.makeText(getApplicationContext(), "Tilt right at m_testFridge", Toast.LENGTH_SHORT).show();
                                 //m_vibrator.vibrate(m_pattern, -1);
                                 m_vibrator.vibrate(20);
                             }
                         }
                         if(rotationX < 0.1 && rotationY < -0.3) {
-                            if(m_compassValue < m_testAlexa*1.05 && m_compassValue > m_testAlexa*0.95) {
+                            if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
                                 Toast.makeText(getApplicationContext(), "Tilt left at Alexa", Toast.LENGTH_SHORT).show();
 
                                 //m_vibrator.vibrate(m_pattern, -1);
 
                                 m_vibrator.vibrate(100); // Vibrate for 1 second.
                             }
-                            if(m_compassValue < m_testLight+10 && m_compassValue > m_testLight - 10) {
+                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
                                 Toast.makeText(getApplicationContext(), "Tilt left at m_testLight", Toast.LENGTH_SHORT).show();
                                 //m_vibrator.vibrate(m_pattern, -1);
                                 m_vibrator.vibrate(10);
                             }
-                            if(m_compassValue < m_testFridge+10 && m_compassValue > m_testFridge - 10) {
+                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
                                 Toast.makeText(getApplicationContext(), "Tilt left at m_testFridge", Toast.LENGTH_SHORT).show();
                                 //m_vibrator.vibrate(m_pattern, -1);
                                 m_vibrator.vibrate(20);
                             }
                         }
                         if(rotationX < -0.3) {
-                            if(m_compassValue < m_testAlexa*1.05 && m_compassValue > m_testAlexa*0.95) {
+                            if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
                                 Toast.makeText(getApplicationContext(), "Tilt forward at Alexa", Toast.LENGTH_SHORT).show();
 
                                 m_vibrator.vibrate(m_pattern, -1);
                                 //m_vibrator.vibrate(100); // Vibrate for 1 second.
                             }
-                            if(m_compassValue < m_testLight+10 && m_compassValue > m_testLight - 10) {
+                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
                                 Toast.makeText(getApplicationContext(), "Tilt forward at m_testLight", Toast.LENGTH_SHORT).show();
                                 //m_vibrator.vibrate(m_pattern, -1);
                                 m_vibrator.vibrate(10);
                             }
-                            if(m_compassValue < m_testFridge+10 && m_compassValue > m_testFridge - 10) {
+                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
                                 Toast.makeText(getApplicationContext(), "Tilt forward at m_testFridge", Toast.LENGTH_SHORT).show();
                                 //m_vibrator.vibrate(m_pattern, -1);
                                 m_vibrator.vibrate(20);
                             }
                         }
 
-                        case Sensor.TYPE_ORIENTATION:
-                            m_compassValue = (int) sensorEvent.values[0];
+//                        case Sensor.TYPE_ORIENTATION:
+//                            m_compassValue = (int) sensorEvent.values[0];
                 }
             }
         }
@@ -454,27 +462,29 @@ excluding the force of gravity
         Menu menu = m_navView.getMenu();
 
         switch(item.getItemId()){
-            case R.id.nav_example_location1:
+            case R.id.nav_set_cast_bearing:
 
-                Toast.makeText(getApplicationContext(), "Example 1", Toast.LENGTH_SHORT)
+                m_intCastValue = m_compassValue;
+
+                Toast.makeText(getApplicationContext(), "Sensor: " + m_compassValue + " SetValue: " + m_intCastValue, Toast.LENGTH_SHORT)
                         .show();
                 //m_selectedLocation = item;
-                //menu.findItem(item.getItemId()).setVisible(false);
-                break;
-
-            case R.id.nav_example_location2:
-                Toast.makeText(getApplicationContext(), "Example 2", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-
-            case R.id.nav_example_location3:
-                Toast.makeText(getApplicationContext(), "Example 3", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-
-            case R.id.nav_locations:
-                 Intent manageLocationIntent = new Intent(this, ManageLocationProfilesActivity.class);
-                    startActivity(manageLocationIntent);
+//                //menu.findItem(item.getItemId()).setVisible(false);
+//                break;
+//
+//            case R.id.nav_example_location2:
+//                Toast.makeText(getApplicationContext(), "Example 2", Toast.LENGTH_SHORT)
+//                        .show();
+//                break;
+//
+//            case R.id.nav_example_location3:
+//                Toast.makeText(getApplicationContext(), "Example 3", Toast.LENGTH_SHORT)
+//                        .show();
+//                break;
+//
+//            case R.id.nav_locations:
+//                 Intent manageLocationIntent = new Intent(this, ManageLocationProfilesActivity.class);
+//                    startActivity(manageLocationIntent);
         }
 
         m_drawerLayout.closeDrawer(GravityCompat.END);

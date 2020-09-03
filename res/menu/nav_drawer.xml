@@ -4,27 +4,32 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_example_location1"
-            android:icon="@drawable/ic_place"
-            android:title="Example location" />
+                   android:id="@+id/nav_set_cast_bearing"
+                   android:icon="@drawable/ic_place"
+                   android:title="Set bearing location" />
 
-        <item
-            android:id="@+id/nav_example_location2"
-            android:icon="@drawable/ic_place"
-            android:title="Example location" />
+        <!--        <item-->
+<!--            android:id="@+id/nav_example_location1"-->
+<!--            android:icon="@drawable/ic_place"-->
+<!--            android:title="Example location" />-->
 
-        <item
-            android:id="@+id/nav_example_location3"
-            android:icon="@drawable/ic_place"
-            android:title="Example location" />
-    </group>
+<!--        <item-->
+<!--            android:id="@+id/nav_example_location2"-->
+<!--            android:icon="@drawable/ic_place"-->
+<!--            android:title="Example location" />-->
 
-    <group android:checkableBehavior="single">
+<!--        <item-->
+<!--            android:id="@+id/nav_example_location3"-->
+<!--            android:icon="@drawable/ic_place"-->
+<!--            android:title="Example location" />-->
+<!--    </group>-->
 
-        <item
-            android:id="@+id/nav_locations"
-            android:icon="@android:drawable/ic_menu_mylocation"
-            android:title="Manage Locations" />
+<!--    <group android:checkableBehavior="single">-->
+
+<!--        <item-->
+<!--            android:id="@+id/nav_locations"-->
+<!--            android:icon="@android:drawable/ic_menu_mylocation"-->
+<!--            android:title="Manage Locations" />-->
 
     </group>
 
