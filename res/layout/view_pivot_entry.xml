@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_pivot_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txt_pivot_location_profile_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txt_device_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txt_pivot_device_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="6dip"
+        android:paddingTop="6dip"
+        android:textSize="22sp"
+        android:textStyle="bold"  />
+
+    <TextView
+        android:id="@+id/txt_pivot_location_profile_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="6dip"
+        android:paddingTop="6dip"
+        android:textSize="22sp"
+        android:textStyle="bold"  />
+
+    <TextView
+        android:id="@+id/txt_pivot_bearing"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="6dip"
+        android:paddingTop="6dip"
+        android:textSize="22sp"
+        android:textStyle="bold"  />
+
+</LinearLayout>
