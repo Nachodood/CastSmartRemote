@@ -2,7 +2,7 @@ package com.google.sample.cast.refplayer;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -88,7 +88,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private boolean m_isgestureListen = false;
 
     private int m_compassValue,
-            m_intCastValue;
+            m_castUpperBearing,
+            m_castLowerBearing;
+
+    public static final String SHAREDPREFERENCESKEY = "CompassCastBearing" ;
+    public static final String CASTUPPERBEARING = "castUpperBearing";
+    public static final String CASTLOWERBEARING = "castLowerBearing";
+
+    SharedPreferences m_compassSharedpreferences;
+    SharedPreferences.Editor m_sharedPrefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //pivotTestAdd();
         //listTest();
         setupDrawer();
+        setupSharedPreferences();
 
         imgMain = findViewById(R.id.img_background);////////////////////////////////////////// Set onFling up for videos
 
@@ -464,9 +473,15 @@ excluding the force of gravity
         switch(item.getItemId()){
             case R.id.nav_set_cast_bearing:
 
-                m_intCastValue = m_compassValue;
+                m_castUpperBearing = m_compassValue+20;
+                m_castLowerBearing = m_compassValue-20;
 
-                Toast.makeText(getApplicationContext(), "Sensor: " + m_compassValue + " SetValue: " + m_intCastValue, Toast.LENGTH_SHORT)
+                m_sharedPrefEditor.putInt(CASTUPPERBEARING, m_castUpperBearing);
+                m_sharedPrefEditor.putInt(CASTLOWERBEARING, m_castLowerBearing);
+
+                m_sharedPrefEditor.commit();
+
+                Toast.makeText(getApplicationContext(), "Sensor: " + m_compassValue + " SetValue: " + m_castUpperBearing, Toast.LENGTH_SHORT)
                         .show();
                 //m_selectedLocation = item;
 //                //menu.findItem(item.getItemId()).setVisible(false);
@@ -493,6 +508,13 @@ excluding the force of gravity
         //m_navView.setCheckedItem(R.id.nav_home);
 
         return true;
+    }
+
+    public void setupSharedPreferences(){
+        m_compassSharedpreferences = getSharedPreferences(SHAREDPREFERENCESKEY, Context.MODE_PRIVATE);
+        m_sharedPrefEditor = m_compassSharedpreferences.edit();
+
+        //TODO: m_castLowerBearing = m_sharedPrefEditor.
     }
 
     //TODO: Register and unregister sensors
