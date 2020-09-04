@@ -230,7 +230,7 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
                 startControllersTimer();
             } else {
                 stopControllersTimer();
-                setCoverArtStatus(mSelectedMedia.getImage(0));
+                //setCoverArtStatus(mSelectedMedia.getImage(0));
             }
         } else {
             stopControllersTimer();
@@ -671,7 +671,6 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
         } else if (item.getItemId() == android.R.id.home) {
             ActivityCompat.finishAfterTransition(this);
         } else if(item.getItemId() == R.id.item_locate_cast) {
-            //TODO: save compass value here
             m_castLocation = m_compassValue;
             m_castUpper = (float) (m_castLocation*1.05);
             m_castLower = (float) (m_castLocation*0.95);

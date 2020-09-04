@@ -46,7 +46,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.google.sample.cast.refplayer.VideoBrowserActivity">
+        <activity android:name="com.google.sample.cast.refplayer.VideoBrowserActivity"
+            android:parentActivityName=".ManageLocationProfilesActivity">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 

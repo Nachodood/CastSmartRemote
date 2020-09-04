@@ -2,6 +2,7 @@ package com.google.sample.cast.refplayer;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -28,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import java.util.List;
 
 import com.google.sample.cast.refplayer.database.PivotDeviceProfileDBItem;
 import com.google.sample.cast.refplayer.database.PivotRepo;
+import com.google.sample.cast.refplayer.mediaplayer.LocalPlayerActivity;
 
 import static android.view.WindowManager.LayoutParams;
 
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     View m_pivotDialogueView;
 
     ImageView imgMain;
+
 
     private SensorManager m_sensorManager;
 
@@ -123,6 +127,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         imgMain = findViewById(R.id.img_background);////////////////////////////////////////// Set onFling up for videos
 
+        m_castUpperBearing = m_compassSharedpreferences.getInt(CASTUPPERBEARING, 0);
+        m_castLowerBearing = m_compassSharedpreferences.getInt(CASTLOWERBEARING, 0);
+
+        Toast.makeText(getApplicationContext(), "Upper: " + m_castUpperBearing + " Lower: " + m_castLowerBearing, Toast.LENGTH_LONG).show();
     }
 
     /////////////////////////////////////////////////////// SENSOR CHECK /////////////////////////////////////////////////////
@@ -332,6 +340,13 @@ excluding the force of gravity
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
+//                            if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
+//                                Toast.makeText(getApplicationContext(), "Tilt forward at Alexa", Toast.LENGTH_SHORT).show();
+//
+//                                m_vibrator.vibrate(m_pattern, -1);
+//                                //m_vibrator.vibrate(100); // Vibrate for 1 second.
+//                            }
+
 //                       float m_orientx = sensorEvent.values[0];
 //                        float m_orienty = sensorEvent.values[1];
 //                        float m_orientz = sensorEvent.values[2];
@@ -357,107 +372,120 @@ excluding the force of gravity
 //        Ø More public function: getRotationMatrix,
 //                getQuaternionFromVector, getRotationMatrixFromVector
 
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ORIENTATION) {
             m_compassValue = (int) sensorEvent.values[0];
         }
 
-        if (m_isgestureListen == true) {
-            synchronized (this) {
-                switch (sensorEvent.sensor.getType()) {
+        synchronized (this) {
+            switch (sensorEvent.sensor.getType()) {
 
-                    case Sensor.TYPE_LINEAR_ACCELERATION:
+                case Sensor.TYPE_LINEAR_ACCELERATION:
 
-                        float x = sensorEvent.values[0];
-                        if (x > 10) {
-                            Toast.makeText(getApplicationContext(),"Right ", Toast.LENGTH_SHORT).show();
-                        } else if (x < -10) {
-                            Toast.makeText(getApplicationContext(),"Left", Toast.LENGTH_SHORT).show();
+                    float x = sensorEvent.values[0];
+                    if (x > 10) {
+                        Toast.makeText(getApplicationContext(), "Right ", Toast.LENGTH_SHORT).show();
+                    } else if (x < -10) {
+                        Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT).show();
+                    }
+
+                    float z = sensorEvent.values[2];
+
+                    Toast.makeText(getApplicationContext(), " " + z, Toast.LENGTH_LONG);
+
+                    if (z > 10) {
+                        //Toast.makeText(getApplicationContext(),"Up", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (z < 5) {
+                        Toast.makeText(getApplicationContext(), "Down", Toast.LENGTH_LONG);
+
+                        if (m_compassValue > m_castLowerBearing && m_castUpperBearing < m_compassValue) {
+                            Toast.makeText(getApplicationContext(), "Cast flick made at Cast", Toast.LENGTH_LONG);
                         }
 
-                        float z = sensorEvent.values[2];
-                        if (z > 10) {
-                            Toast.makeText(getApplicationContext(),"Up", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
+                    }
+                    break;
 
-                    case Sensor.TYPE_GAME_ROTATION_VECTOR:
-                        float rotationX = sensorEvent.values[0];
-                        //TextView txtX = findViewById(R.id.txt_rotation_x);
-                        //txtX.setText("X: " + rotationX);
+                case Sensor.TYPE_GAME_ROTATION_VECTOR:
+                    float rotationX = sensorEvent.values[0];
+//
+                    float rotationY = sensorEvent.values[1];
+//
+                    float rotationZ = sensorEvent.values[2];
 
-                        float rotationY = sensorEvent.values[1];
-                        //TextView txtY = findViewById(R.id.txt_rotation_y);
-                        //txtY.setText("Y: " + rotationY);
+                    if (rotationX < -0.3 && m_compassValue < m_castUpperBearing) {
+                        // if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
+                        Toast.makeText(getApplicationContext(), "Cast at Chrome", Toast.LENGTH_SHORT).show();
 
-                        float rotationZ = sensorEvent.values[2];
-                        //TextView txtZ = findViewById(R.id.txt_rotation_z);
-                        //txtZ.setText("Z: " + rotationZ);
-
-                        int m_testAlexa = 270;
-                        int m_testLight = 320;
-                        int m_testFridge = 180;
-
-                        if(rotationX < 0.1 && rotationY > 0.3){
-                            if(m_compassValue < m_testAlexa +10 && m_compassValue > m_testAlexa - 10) {
-                                Toast.makeText(getApplicationContext(), "Tilt right at Alexa", Toast.LENGTH_SHORT).show();
-                                //m_vibrator.vibrate(m_pattern, -1);
-                                m_vibrator.vibrate(1);
-                            }
-                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
-                                Toast.makeText(getApplicationContext(), "Tilt right at m_testLight", Toast.LENGTH_SHORT).show();
-                                //m_vibrator.vibrate(m_pattern, -1);
-                                m_vibrator.vibrate(10);
-                            }
-                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
-                                Toast.makeText(getApplicationContext(), "Tilt right at m_testFridge", Toast.LENGTH_SHORT).show();
-                                //m_vibrator.vibrate(m_pattern, -1);
-                                m_vibrator.vibrate(20);
-                            }
-                        }
-                        if(rotationX < 0.1 && rotationY < -0.3) {
-                            if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
-                                Toast.makeText(getApplicationContext(), "Tilt left at Alexa", Toast.LENGTH_SHORT).show();
-
-                                //m_vibrator.vibrate(m_pattern, -1);
-
-                                m_vibrator.vibrate(100); // Vibrate for 1 second.
-                            }
-                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
-                                Toast.makeText(getApplicationContext(), "Tilt left at m_testLight", Toast.LENGTH_SHORT).show();
-                                //m_vibrator.vibrate(m_pattern, -1);
-                                m_vibrator.vibrate(10);
-                            }
-                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
-                                Toast.makeText(getApplicationContext(), "Tilt left at m_testFridge", Toast.LENGTH_SHORT).show();
-                                //m_vibrator.vibrate(m_pattern, -1);
-                                m_vibrator.vibrate(20);
-                            }
-                        }
-                        if(rotationX < -0.3) {
-                            if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
-                                Toast.makeText(getApplicationContext(), "Tilt forward at Alexa", Toast.LENGTH_SHORT).show();
-
-                                m_vibrator.vibrate(m_pattern, -1);
-                                //m_vibrator.vibrate(100); // Vibrate for 1 second.
-                            }
-                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
-                                Toast.makeText(getApplicationContext(), "Tilt forward at m_testLight", Toast.LENGTH_SHORT).show();
-                                //m_vibrator.vibrate(m_pattern, -1);
-                                m_vibrator.vibrate(10);
-                            }
-                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
-                                Toast.makeText(getApplicationContext(), "Tilt forward at m_testFridge", Toast.LENGTH_SHORT).show();
-                                //m_vibrator.vibrate(m_pattern, -1);
-                                m_vibrator.vibrate(20);
-                            }
-                        }
+                        Intent playerIntent = new Intent(this, VideoBrowserActivity.class);
+                        startActivity(playerIntent);
+//
+//                              }
+//                        int m_testAlexa = 270;
+//                        int m_testLight = 320;
+//                        int m_testFridge = 180;
+//
+//                        if(rotationX < 0.1 && rotationY > 0.3){
+//                            if(m_compassValue < m_testAlexa +10 && m_compassValue > m_testAlexa - 10) {
+//                                Toast.makeText(getApplicationContext(), "Tilt right at Alexa", Toast.LENGTH_SHORT).show();
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//                                m_vibrator.vibrate(1);
+//                            }
+//                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
+//                                Toast.makeText(getApplicationContext(), "Tilt right at m_testLight", Toast.LENGTH_SHORT).show();
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//                                m_vibrator.vibrate(10);
+//                            }
+//                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
+//                                Toast.makeText(getApplicationContext(), "Tilt right at m_testFridge", Toast.LENGTH_SHORT).show();
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//                                m_vibrator.vibrate(20);
+//                            }
+//                        }
+//                        if(rotationX < 0.1 && rotationY < -0.3) {
+//                            if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
+//                                Toast.makeText(getApplicationContext(), "Tilt left at Alexa", Toast.LENGTH_SHORT).show();
+//
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//
+//                                m_vibrator.vibrate(100); // Vibrate for 1 second.
+//                            }
+//                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
+//                                Toast.makeText(getApplicationContext(), "Tilt left at m_testLight", Toast.LENGTH_SHORT).show();
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//                                m_vibrator.vibrate(10);
+//                            }
+//                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
+//                                Toast.makeText(getApplicationContext(), "Tilt left at m_testFridge", Toast.LENGTH_SHORT).show();
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//                                m_vibrator.vibrate(20);
+//                            }
+//                        }
+//                        if(rotationX < -0.3) {
+//                            if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
+//                                Toast.makeText(getApplicationContext(), "Tilt forward at Alexa", Toast.LENGTH_SHORT).show();
+//
+//                                m_vibrator.vibrate(m_pattern, -1);
+//                                //m_vibrator.vibrate(100); // Vibrate for 1 second.
+//                            }
+//                            if(m_compassValue < m_testLight +10 && m_compassValue > m_testLight - 10) {
+//                                Toast.makeText(getApplicationContext(), "Tilt forward at m_testLight", Toast.LENGTH_SHORT).show();
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//                                m_vibrator.vibrate(10);
+//                            }
+//                            if(m_compassValue < m_testFridge +10 && m_compassValue > m_testFridge - 10) {
+//                                Toast.makeText(getApplicationContext(), "Tilt forward at m_testFridge", Toast.LENGTH_SHORT).show();
+//                                //m_vibrator.vibrate(m_pattern, -1);
+//                                m_vibrator.vibrate(20);
+//                            }
+//                        }
 
 //                        case Sensor.TYPE_ORIENTATION:
 //                            m_compassValue = (int) sensorEvent.values[0];
-                }
+                    }
             }
-        }
 
+        }
     }
 
 
