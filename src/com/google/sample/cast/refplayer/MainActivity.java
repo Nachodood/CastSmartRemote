@@ -18,9 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     View m_pivotDialogueView;
 
     ImageView imgMain;
-
+    VideoView m_videoView;
 
     private SensorManager m_sensorManager;
 
@@ -107,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //setupMediaPlayer();
+
         getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         m_sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -125,12 +129,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setupDrawer();
         setupSharedPreferences();
 
-        imgMain = findViewById(R.id.img_background);////////////////////////////////////////// Set onFling up for videos
-
         m_castUpperBearing = m_compassSharedpreferences.getInt(CASTUPPERBEARING, 0);
         m_castLowerBearing = m_compassSharedpreferences.getInt(CASTLOWERBEARING, 0);
 
         Toast.makeText(getApplicationContext(), "Upper: " + m_castUpperBearing + " Lower: " + m_castLowerBearing, Toast.LENGTH_LONG).show();
+    }
+
+    public void setupMediaPlayer(){
+        //m_videoView = findViewById(R.id.video_view);
+        //m_videoView.
+
+        MediaController mMediaController = new MediaController(this);
+        mMediaController.setAnchorView(m_videoView);
+        m_videoView.setMediaController(mMediaController);
+
+
     }
 
     /////////////////////////////////////////////////////// SENSOR CHECK /////////////////////////////////////////////////////
@@ -416,6 +429,8 @@ excluding the force of gravity
                     if (rotationX < -0.3 && m_compassValue < m_castUpperBearing) {
                         // if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
                         Toast.makeText(getApplicationContext(), "Cast at Chrome", Toast.LENGTH_SHORT).show();
+
+
 
                         Intent playerIntent = new Intent(this, VideoBrowserActivity.class);
                         startActivity(playerIntent);

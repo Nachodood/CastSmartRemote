@@ -825,21 +825,21 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
 
                     case Sensor.TYPE_LINEAR_ACCELERATION:
 
-                        if(m_castLower < m_compassValue && m_compassValue < m_castUpper) {
-                            float x = sensorEvent.values[0];
-                            if (x > 10) {
-                                Toast.makeText(getApplicationContext(), "Right ", Toast.LENGTH_SHORT).show();
-
-                            } else if (x < -10) {
-                                Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT).show();
-                            }
+                        //if(m_castLower < m_compassValue && m_compassValue < m_castUpper) {
+//                            float x = sensorEvent.values[0];
+//                            if (x > 10) {
+//                                Toast.makeText(getApplicationContext(), "Right ", Toast.LENGTH_SHORT).show();
+//
+//                            } else if (x < -10) {
+//                                Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT).show();
+//                            }
 
                             float z = sensorEvent.values[2];
                             if (z > 8) {
                                 Toast.makeText(getApplicationContext(), "Up", Toast.LENGTH_SHORT).show();
                                 togglePlayback();
                             }
-                        }
+                        //}
 
                         break;
 
@@ -850,7 +850,7 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
 
                         float rotationZ = sensorEvent.values[2];
 
-                        if(m_castLower < m_compassValue && m_compassValue < m_castUpper) {
+                        //if(m_castLower < m_compassValue && m_compassValue < m_castUpper) {
                             //Tilt right
                             if (rotationX < 0.1 && rotationY > 0.3) {
                                 maudioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
@@ -865,7 +865,7 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
                             if (rotationX < -0.3) {
                                 maudioManager.adjustVolume(AudioManager.ADJUST_TOGGLE_MUTE, AudioManager.FLAG_PLAY_SOUND);
                             }
-                        }
+                       // }
 
                     case Sensor.TYPE_ORIENTATION:
                         m_compassValue = (int) sensorEvent.values[0];
