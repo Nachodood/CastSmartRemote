@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         m_castUpperBearing = m_compassSharedpreferences.getInt(CASTUPPERBEARING, 0);
         m_castLowerBearing = m_compassSharedpreferences.getInt(CASTLOWERBEARING, 0);
 
-        Toast.makeText(getApplicationContext(), "Upper: " + m_castUpperBearing + " Lower: " + m_castLowerBearing, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Upper: " + m_castUpperBearing + " Lower: " + m_castLowerBearing, Toast.LENGTH_LONG).show();
     }
 
     public void setupMediaPlayer(){
@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         MediaController mMediaController = new MediaController(this);
         mMediaController.setAnchorView(m_videoView);
         m_videoView.setMediaController(mMediaController);
-
 
     }
 
@@ -396,9 +395,9 @@ excluding the force of gravity
 
                     float x = sensorEvent.values[0];
                     if (x > 10) {
-                        Toast.makeText(getApplicationContext(), "Right ", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Right ", Toast.LENGTH_SHORT).show();
                     } else if (x < -10) {
-                        Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT).show();
                     }
 
                     float z = sensorEvent.values[2];
@@ -413,7 +412,7 @@ excluding the force of gravity
                         Toast.makeText(getApplicationContext(), "Down", Toast.LENGTH_LONG);
 
                         if (m_compassValue > m_castLowerBearing && m_castUpperBearing < m_compassValue) {
-                            Toast.makeText(getApplicationContext(), "Cast flick made at Cast", Toast.LENGTH_LONG);
+                            //Toast.makeText(getApplicationContext(), "Cast flick made at Cast", Toast.LENGTH_LONG);
                         }
 
                     }
@@ -428,9 +427,7 @@ excluding the force of gravity
 
                     if (rotationX < -0.3 && m_compassValue < m_castUpperBearing) {
                         // if(m_compassValue < m_testAlexa *1.05 && m_compassValue > m_testAlexa *0.95) {
-                        Toast.makeText(getApplicationContext(), "Cast at Chrome", Toast.LENGTH_SHORT).show();
-
-
+                        //Toast.makeText(getApplicationContext(), "Cast at Chrome", Toast.LENGTH_SHORT).show();
 
                         Intent playerIntent = new Intent(this, VideoBrowserActivity.class);
                         startActivity(playerIntent);
@@ -524,8 +521,8 @@ excluding the force of gravity
 
                 m_sharedPrefEditor.commit();
 
-                Toast.makeText(getApplicationContext(), "Sensor: " + m_compassValue + " SetValue: " + m_castUpperBearing, Toast.LENGTH_SHORT)
-                        .show();
+                //Toast.makeText(getApplicationContext(), "Sensor: " + m_compassValue + " SetValue: " + m_castUpperBearing, Toast.LENGTH_SHORT)
+                        //.show();
                 //m_selectedLocation = item;
 //                //menu.findItem(item.getItemId()).setVisible(false);
 //                break;
@@ -540,9 +537,9 @@ excluding the force of gravity
 //                        .show();
 //                break;
 //
-//            case R.id.nav_locations:
-//                 Intent manageLocationIntent = new Intent(this, ManageLocationProfilesActivity.class);
-//                    startActivity(manageLocationIntent);
+            case R.id.nav_locations:
+                 Intent manageLocationIntent = new Intent(this, ManageLocationProfilesActivity.class);
+                    startActivity(manageLocationIntent);
         }
 
         m_drawerLayout.closeDrawer(GravityCompat.END);

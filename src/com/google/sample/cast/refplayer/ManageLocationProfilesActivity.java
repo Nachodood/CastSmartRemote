@@ -39,7 +39,7 @@ public class ManageLocationProfilesActivity extends AppCompatActivity {
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
+        //ab.setDisplayHomeAsUpEnabled(true);
 
         setupView();
         setupListeners();

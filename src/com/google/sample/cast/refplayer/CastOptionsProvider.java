@@ -17,17 +17,17 @@ public class CastOptionsProvider implements OptionsProvider {
 
     @Override
     public CastOptions getCastOptions(Context context) {
-        NotificationOptions notificationOptions = new NotificationOptions.Builder()
-                .setTargetActivityClassName(ExpandedControlsActivity.class.getName())
-                .build();
-        CastMediaOptions mediaOptions = new CastMediaOptions.Builder()
-                .setNotificationOptions(notificationOptions)
-                .setExpandedControllerActivityClassName(ExpandedControlsActivity.class.getName())
-                .build();
+        //NotificationOptions notificationOptions = new NotificationOptions.Builder()
+        //        .setTargetActivityClassName(ExpandedControlsActivity.class.getName())
+        //        .build();
+        //CastMediaOptions mediaOptions = new CastMediaOptions.Builder()
+        //        .setNotificationOptions(notificationOptions)
+        //        .setExpandedControllerActivityClassName(ExpandedControlsActivity.class.getName())
+        //        .build();
 
         return new CastOptions.Builder()
                 .setReceiverApplicationId(context.getString(R.string.app_id))
-                .setCastMediaOptions(mediaOptions)
+                //.setCastMediaOptions(mediaOptions)
                 .build();
     }
 

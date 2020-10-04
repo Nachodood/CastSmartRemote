@@ -37,27 +37,23 @@
     </com.google.android.material.navigation.NavigationView>
 
 
-    <!--
-    <ImageButton
+<!--    <ImageButton
         android:id="@+id/img_btn_list_locations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_mylocation"
         android:contentDescription="@string/list_location_image_button" />
-        -->
 
-    <!--
     <ImageButton
         android:id="@+id/imgbtn_listen_gesture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_always_landscape_portrait"/>
-        -->
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/img_gesture_performed"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="678dp"-->
-    <!--        app:srcCompat="@android:drawable/ic_menu_always_landscape_portrait" />-->
+        <ImageView
+            android:id="@+id/img_gesture_performed"
+            android:layout_width="match_parent"
+            android:layout_height="678dp"
+            app:srcCompat="@android:drawable/ic_menu_always_landscape_portrait" />-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -268,8 +268,8 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
                         mVideoView.start();
                         Log.d(TAG, "Playing locally...");
                         mPlaybackState = PlaybackState.PLAYING;
-                        startControllersTimer();
-                        restartTrickplayTimer();
+                        //startControllersTimer();
+                        //restartTrickplayTimer();
                         updatePlaybackLocation(PlaybackLocation.LOCAL);
                         break;
                     case REMOTE:
@@ -360,7 +360,7 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
     private void updateControllersVisibility(boolean show) {
         if (show) {
             getSupportActionBar().show();
-            mControllers.setVisibility(View.VISIBLE);
+            //mControllers.setVisibility(View.VISIBLE);
         } else {
             if (!Utils.isOrientationPortrait(this)) {
                 getSupportActionBar().hide();
@@ -835,9 +835,19 @@ public class LocalPlayerActivity extends AppCompatActivity implements SensorEven
 //                            }
 
                             float z = sensorEvent.values[2];
-                            if (z > 8) {
-                                Toast.makeText(getApplicationContext(), "Up", Toast.LENGTH_SHORT).show();
+                            if (z > 6) {
+                                //Toast.makeText(getApplicationContext(), "Up", Toast.LENGTH_SHORT).show();
                                 togglePlayback();
+
+//                                if(mPlaybackState==PlaybackState.PLAYING){
+//                                   mVideoView.pause();
+//                                }
+//                                else if(mPlaybackState == PlaybackState.PAUSED){
+//                                    mVideoView.resume();
+//                                }else if(mPlaybackState==PlaybackState.IDLE){
+//                                    mVideoView.resume();
+//                                }
+
                             }
                         //}
 

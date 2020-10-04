@@ -67,6 +67,7 @@ public class VideoBrowserActivity extends AppCompatActivity {
         };
 
         mCastContext = CastContext.getSharedInstance(this);
+
     }
 
     @Override
